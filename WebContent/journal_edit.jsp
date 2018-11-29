@@ -109,7 +109,7 @@
                             </select>
                         </div><!-- /.form-group -->
                         <div class="form-group">
-                            <label>I gained new knowledge about:</label>
+                            <label>I gained new knowledge:</label>
                             <div class="box-body pad">
                                 <form>
                                     <textarea   id="progress-content" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
@@ -129,10 +129,10 @@
                             <label>work plan for:</label>
                             <select class="form-control select2"  data-placeholder="Select a Time" id="plan-time-select" style="width: 100%;">
                                 <option value="d">Define a time</option>
-                                <option value="1w">Recent 1 week</option>
-                                <option value="2w">Recent 2 week</option>
-                                <option value="1m">Recent 1 month</option>
-                                <option value="2m">Recent 2 months</option>
+                                <option value="1w">Next 1 week</option>
+                                <option value="2w">Next 2 week</option>
+                                <option value="1m">Next 1 month</option>
+                                <option value="2m">Next 2 months</option>
                                
                             </select>
                         </div>
@@ -178,9 +178,10 @@
                             </div>
                         </div><!-- /.form-group -->
                     </div>
+                    </div>
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">progress</h3>
+                            <h3 class="box-title">Share</h3>
                         </div>
                         <div class="box-body">
                             <div class="form-group">
@@ -203,7 +204,7 @@
                             <div class="col-xs-2"><button onclick="window.history.go(-1);return false;" class="btn btn-block btn-primary">Cancel</button></div>
                         </div>
                     </div>
-                </div>
+                
             </section>
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -328,9 +329,10 @@
              $("#plan-action").empty().html()
               var records = ""
             	  returndata=JSON.parse(returndata.obj);
+             	window.action=returndata;
             if(status){
             	 for(var i in returndata){
-            		 records+="<option value=\""+returndata[i].action_name+"\">"+returndata[i].action_name+"</option>"
+            		 records+="<option value=\""+returndata[i].Id+"\">"+returndata[i].action_name+"</option>"
             	 }
                  console.log("data:" + returndata)
             }else{
@@ -353,10 +355,13 @@
 				
 				 console.log(data)
 				 data=JSON.parse(data.obj);
-				if(data[0].User_id==params.uid){
+				if(data[0].User_id!=params.uid&&sessionStorage.getItem("role")!="teacher"){
 					// not the author
 					if(data[0].permission =="view"){
-						$('.content').attr('readonly', true);
+						$($('.content .box-primary')[0] ).css("pointer-events","none")
+						$($('.content .box-primary')[1] ).css("pointer-events","none")
+						$($('.content .box-primary')[2] ).css("pointer-events","none")
+						$($('.content .box-primary')[3]).find(".box-body").css("pointer-events","none")
 						$('#mode').empty().html("view");
 						$('#btn-save').hide()
 						
@@ -389,7 +394,9 @@
 				 	$("#plan-peer").select2("val",data[0].planpeers.split(","))
 					$("#share-peer").select2("val",data[0].sharepeers.split(","))
 					$("#share-permission").select2("val",data[0].permission)
-					$("#plan-action").select2("val",data[0].actions)
+					var actions = data[0].actions.split(',');
+				
+					$("#plan-action").select2("val",actions)
 				 	 
 				 	CKEDITOR.instances['plan-content2'].setData(data[0].resources)
 				 	CKEDITOR.instances['plan-content'].setData(data[0].issues)
@@ -404,27 +411,29 @@
     function add(){
     	
     	var today = new Date();
+    	var month  = today.getMonth()+1;
     	// get all the data
     	var params = {
-    			'database':getParameter("localdb"),
+     			'database':getParameter("localdb"),
     			'token':getParameter("token"),
-    			'selected_topic':$("#select-topic").val(),
+    			'pid':getParameter("project_id"),
+    			'selected_topic':$("#select-topic").val()==null?"":$("#select-topic").val(),
     			'Userid':getParameter("uid"),
-    			'progresstime':$("#progress-time-select").val(),
-    			'progress_time_select':$("#progress-time-select").val(),
-    			'progress_time_define':$("#progress-time-define input").val(),
-    			'progresspeers':$("#progress-peer").val()==""?"":$("#progress-peer").val().join(),
+    			'progresstime':$("#progress-time-select").val()==null?"":$("#progress-time-select").val(),
+    			'progress_time_select':$("#progress-time-select").val()==null?"":$("#progress-time-select").val(),
+    			'progress_time_define':$("#progress-time-define input").val()==null?"":$("#progress-time-define input").val(),
+    			'progresspeers':$("#progress-peer").val()==null?"":$("#progress-peer").val().join(),
     			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace("\n",""),
-    			'plantime':$("#plan-time-select").val(),
-    			'plan_time_select':$("#plan-time-select").val(),
-    			'plan_time_define':$("#plan-time-define input").val(),
+    			'plantime':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
+    			'plan_time_select':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
+    			'plan_time_define':$("#plan-time-define input").val()==null?"":$("#plan-time-define input").val(),
     			'issues':CKEDITOR.instances['plan-content'].getData().replace("\n",""),
-    			'actions':$("#plan-action").val()==""?"":$("#plan-action").val().join(),
-    			'planpeers':$("#plan-peer").val()==""?"":$("#plan-peer").val().join(),
+    			'actions':$("#plan-action").val()==null?"":$("#plan-action").val().join(),
+    			'planpeers':$("#plan-peer").val()==null?"":$("#plan-peer").val().join(),
     			'resources':CKEDITOR.instances['plan-content2'].getData().replace("\n",""),
-    			'sharepeers':$("#share-peer").val()==""?"":$("#share-peer").val().join(),
-    			'permission':$("#share-permission").val(),
-    			'creationtime':today.getDate()+"/"+today.getMonth()+"/"+today.getYear()
+    			'sharepeers':$("#share-peer").val()==null?"":$("#share-peer").val().join(),
+    			'permission':$("#share-permission").val()==null?"view":$("#share-permission").val(),
+    			'creationtime':today.getDate()+"/"+month+"/"+today.getFullYear()
     	}
     	
     	 var today = new Date()
@@ -496,7 +505,8 @@
         getDataFromITM(params,"/journal/add", function(status,returndata){
             
             if(status){
-            	 
+            	 //back to list page
+           	 goto_jounal_index()
                  console.log("data:" + returndata)
             }else{
                 console.log("error:" + returndata)
@@ -540,7 +550,6 @@
     });
     </script>
 
-       /?username=itm&token=20171029163219826664&uid=57c067ec2057905c290083c9&kf-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2MwNjdkYTIwNTc5MDVjMjkwMDgzYzgiLCJpYXQiOjE1Mzk5MjI4ODMsImV4cCI6MTUzOTk0MDg4M30.6itTnEzZXMnj6_8dHSrUOVROwfE-e7BuA9w9Demq1vU&kfurl=https://kf6.ikit.org/&community_id=57c052ea2057905c29008319&community=Guilderland Elementary School&localdb=localdb&project_id=3
 </body>
 
 </html>

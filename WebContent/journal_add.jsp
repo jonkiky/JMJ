@@ -129,10 +129,10 @@
                             <label>work plan for:</label>
                             <select class="form-control select2"  data-placeholder="Select a Time" id="plan-time-select" style="width: 100%;">
                                 <option value="d">Define a time</option>
-                                <option value="1w">Recent 1 week</option>
-                                <option value="2w">Recent 2 week</option>
-                                <option value="1m">Recent 1 month</option>
-                                <option value="2m">Recent 2 months</option>
+                                <option value="1w">Next 1 week</option>
+                                <option value="2w">Next 2 week</option>
+                                <option value="1m">Next 1 month</option>
+                                <option value="2m">Next 2 months</option>
                                
                             </select>
                         </div>
@@ -339,7 +339,7 @@
             	  returndata=JSON.parse(returndata.obj);
             if(status){
             	 for(var i in returndata){
-            		 records+="<option value=\""+returndata[i].action_name+"\">"+returndata[i].action_name+"</option>"
+            		 records+="<option value=\""+returndata[i].Id+"\">"+returndata[i].action_name+"</option>"
             	 }
                  console.log("data:" + returndata)
             }else{
@@ -352,28 +352,31 @@
         $("#btn-save").click(function(){
         	// get all the data
         	var today = new Date();
-        	var params = {
-        			'database':getParameter("localdb"),
-        			'token':getParameter("token"),
-        			'selected_topic':$("#select-topic").val(),
-        			'Userid':getParameter("uid"),
-        			'progresstime':$("#progress-time-select").val(),
-        			'progress_time_select':$("#progress-time-select").val(),
-        			'progress_time_define':$("#progress-time-define input").val(),
-        			'progresspeers':$("#progress-peer").val()==""?"":$("#progress-peer").val().join(),
-        			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace("\n",""),
-        			'plantime':$("#plan-time-select").val(),
-        			'plan_time_select':$("#plan-time-select").val(),
-        			'plan_time_define':$("#plan-time-define input").val(),
-        			'issues':CKEDITOR.instances['plan-content'].getData().replace("\n",""),
-        			'actions':$("#plan-action").val()==""?"":$("#plan-action").val().join(),
-        			'planpeers':$("#plan-peer").val()==""?"":$("#plan-peer").val().join(),
-        			'resources':CKEDITOR.instances['plan-content2'].getData().replace("\n",""),
-        			'sharepeers':$("#share-peer").val()==""?"":$("#share-peer").val().join(),
-        			'permission':$("#share-permission").val(),
-        			'creationtime':today.getDate()+"/"+today.getMonth()+"/"+today.getYear()
-        	}
-        	
+	    	var month  = today.getMonth()+1;
+	    	// get all the data
+	    	var params = {
+     			'database':getParameter("localdb"),
+    			'token':getParameter("token"),
+    			'pid':getParameter("project_id"),
+    			'selected_topic':$("#select-topic").val()==null?"":$("#select-topic").val(),
+    			'Userid':getParameter("uid"),
+    			'progresstime':$("#progress-time-select").val()==null?"":$("#progress-time-select").val(),
+    			'progress_time_select':$("#progress-time-select").val()==null?"":$("#progress-time-select").val(),
+    			'progress_time_define':$("#progress-time-define input").val()==null?"":$("#progress-time-define input").val(),
+    			'progresspeers':$("#progress-peer").val()==null?"":$("#progress-peer").val().join(),
+    			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace("\n",""),
+    			'plantime':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
+    			'plan_time_select':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
+    			'plan_time_define':$("#plan-time-define input").val()==null?"":$("#plan-time-define input").val(),
+    			'issues':CKEDITOR.instances['plan-content'].getData().replace("\n",""),
+    			'actions':$("#plan-action").val()==null?"":$("#plan-action").val().join(),
+    			'planpeers':$("#plan-peer").val()==null?"":$("#plan-peer").val().join(),
+    			'resources':CKEDITOR.instances['plan-content2'].getData().replace("\n",""),
+    			'sharepeers':$("#share-peer").val()==null?"":$("#share-peer").val().join(),
+    			'permission':$("#share-permission").val()==null?"view":$("#share-permission").val(),
+    			'creationtime':today.getDate()+"/"+month+"/"+today.getFullYear()
+    	}
+    	
         	 var today = new Date()
         	if(params['plan_time_select']=="1w"){
         		  var tt=subDays(Date(),7)

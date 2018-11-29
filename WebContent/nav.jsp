@@ -9,9 +9,10 @@
               </a>
                           <ul class="treeview-menu  menu-open" style="display: block;">
                             <li><a   href="#" onclick="goto_jounal_index();return false;">View research journal</a></li>
-                        </ul>
-                         <ul class="treeview-menu  menu-open" style="display: block;">
+                    
                             <li><a href="#" onclick="goto_jounal_add();return false;" >create research journal</a></li>
+                  
+                            <li><a href="#" onclick="goto_jounal_action();return false;" >Research Actions</a></li>
                         </ul>
                     </li>
                     <!--     <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>

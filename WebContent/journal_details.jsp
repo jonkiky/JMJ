@@ -428,7 +428,6 @@
     });
     </script>
 
-       /?username=itm&token=20171029163219826664&uid=57c067ec2057905c290083c9&kf-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2MwNjdkYTIwNTc5MDVjMjkwMDgzYzgiLCJpYXQiOjE1Mzk5MjI4ODMsImV4cCI6MTUzOTk0MDg4M30.6itTnEzZXMnj6_8dHSrUOVROwfE-e7BuA9w9Demq1vU&kfurl=https://kf6.ikit.org/&community_id=57c052ea2057905c29008319&community=Guilderland Elementary School&localdb=localdb&project_id=3
 </body>
 
 </html>

@@ -60,18 +60,23 @@ function getParameter(paramName) {
 }
 
 function goto_jounal_add(){
-	window.open("journal_add.jsp?username="+params.username+"&token="+params.token+"&uid="+params.token+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id);
+	window.open("journal_add.jsp?username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
 }
 
 
 function goto_jounal_index(){
-	window.open("index.jsp?username="+params.username+"&token="+params.token+"&uid="+params.token+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id);
+	window.open("index.jsp?username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
 }
 
 function goto_jounal_edit(id){
-	window.open("journal_edit.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.token+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id);
+	window.open("journal_edit.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
 }
 
 function goto_jounal_details(id){
-	window.open("journal_edit.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.token+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id);
+	window.open("journal_edit.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
+}
+
+
+function goto_jounal_action(){
+	window.open("journal_actions.jsp?username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
 }

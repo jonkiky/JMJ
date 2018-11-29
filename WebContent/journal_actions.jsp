@@ -3,7 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
- 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Journal CENTER</title>
@@ -31,8 +30,6 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -54,154 +51,51 @@
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
-		<%@ include file="nav.jsp" %>
+ 		<%@ include file="nav.jsp" %>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <section class="content">
-                <h3 class="box-title"><span id="mode">add</span> Journal</h3>
-                <div class="box box-primary">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Add Actions</h3>
+     
+                    </div><!-- /.box-header -->
                     <div class="box-body">
-                        <div class="form-group">
-                            <label>Topic</label>
-                            <select class="form-control select2"   data-placeholder="Select a Topic" id="select-topic" style="width: 100%;">
-                              
-                            </select>
-                        </div><!-- /.form-group -->
-                    </div>
-                </div>
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">progress</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="form-group">
-                            <div class="row">
-                                   <div class="col-xs-4">
-                            <label>Select a Time</label>
-                            <select class="form-control select2"  data-placeholder="Select a Time" id="progress-time-select" style="width: 100%;">
-                                <option value="d">Define a time</option>
-                                <option value="1w">Recent 1 week</option>
-                                <option value="2w">Recent 2 week</option>
-                                <option value="1m">Recent 1 month</option>
-                                <option value="2m">Recent 2 months</option>
-                               
-                            </select>
-                        </div>
-                         <div class="col-xs-8">
-                             <label> Define a time </label>
-                            <div class="input-group "  id="progress-time-define">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                   
+                                    <div class="input-group" style="width:100%">
+                                         <input type="text" class="form-control"  id="input-action" style="width:100%" placeholder="Add a action">
                                     </div>
-                                </div>
-                        </div>
-                        </div><!-- /.form-group -->
-
-                        
-                        
-
-                        <div class="form-group">
-                            <label>peers</label>
-                            <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"  id="progress-peer" style="width: 100%;">
-                             
-                            </select>
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label>I gained new knowledge:</label>
-                            <div class="box-body pad">
-                                <form>
-                                    <textarea   id="progress-content" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
-                            </div>
-                        </div><!-- /.form-group -->
-                    </div>
+                                </div><!-- /.form-group -->
+          
+                            </div><!-- /.col -->
+                    		 <div class="col-md-3"><button id="btn-add" class="btn btn-block btn-primary">Add</button></div>
+                        </div><!-- /.row -->
+                    </div><!-- /.box-body -->
+           
                 </div>
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">Plan</h3>
-                    </div>
-                    <div class="box-body">
-                         <div class="form-group">
-                            <div class="row">
-                                   <div class="col-xs-4">
-                            <label>work plan for:</label>
-                            <select class="form-control select2"  data-placeholder="Select a Time" id="plan-time-select" style="width: 100%;">
-                                <option value="d">Define a time</option>
-                                <option value="1w">Recent 1 week</option>
-                                <option value="2w">Recent 2 week</option>
-                                <option value="1m">Recent 1 month</option>
-                                <option value="2m">Recent 2 months</option>
-                               
-                            </select>
-                        </div>
-                         <div class="col-xs-8">
-                             <label> Define a time </label>
-                            <div class="input-group "  id="plan-time-define">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="">
-                                    </div>
-                                </div>
-                        </div>
-                        </div><!-- /.form-group -->
-
-                        <div class="form-group">
-                            <label>I will focus on the following deeper issue(s) and question(s):</label>
-                            <div class="box-body pad">
-                                <form>
-                                    <textarea id="plan-content" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
-                            </div>
-                        </div><!-- /.form-group -->
-            
-                        <div class="form-group">
-                            <label>possible actions:</label>
-                            <select class="form-control select2" multiple="multiple" data-placeholder="Select a action" id="plan-action" style="width: 100%;">
-                                <option>activities in the inquiry cycle</option>
-                            </select>
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label>Peer:</label>
-                            <select class="form-control select2" multiple="multiple" data-placeholder="Select a Peer" id="plan-peer" style="width: 100%;">
-                            
-                            </select>
-                        </div><!-- /.form-group -->
-                        <div class="form-group">
-                            <label>resources that I will need to use:</label>
-                            <div class="box-body pad">
-                                <form>
-                                    <textarea class="textarea"  id="plan-content2" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
-                            </div>
-                        </div><!-- /.form-group -->
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">progress</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label>share my research journal with</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a Peer" id="share-peer" style="width: 100%;">
-                                  
-                                </select>
-                            </div><!-- /.form-group -->
-                            <div class="form-group">
-                                <label>she/he can my research journal</label>
-                                <select class="form-control select2"  data-placeholder="Select a Permission"  id="share-permission"  style="width: 100%;">
-                                    <option value="view">View</option>
-                                    <option value="edit">Edit</option>
-                                </select>
-                            </div><!-- /.form-group -->
-                        </div>
-                        <div class="box-footer">
-                            <div class="col-xs-8"></div>
-                            <div class="col-xs-2"><button id="btn-save" class="btn btn-block btn-primary">Save</button></div>
-                            <div class="col-xs-2"><button onclick="window.history.go(-1);return false;" class="btn btn-block btn-primary">Cancel</button></div>
-                        </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Actions</h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                 		<tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Action</th>
+                                         </tr>
+                                    <tbody id="record">
+                                       
+                                      
+                                    </tbody>
+                                </table>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
                     </div>
                 </div>
             </section>
@@ -229,7 +123,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <!-- Select2 -->
+        <!-- Select2 -->
     <script src="plugins/select2/select2.full.min.js"></script>
     <!-- Sparkline -->
     <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
@@ -251,212 +145,114 @@
     <script src="plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
+    <script src="js/get.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <!-- AdminLTE for demo purposes -->
-    <!-- CK Editor -->
-    <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
-    <script src="js/get.js"></script>
+
     <script type="text/javascript">
+	
     
-    
-    $(function() {
-    	
-    	
-
-        $(".select2").select2();
-       
-        //$(".textarea").wysihtml5();
-        $.fn.datepicker.defaults.format = "mm/dd/yyyy";
-        CKEDITOR.replace('plan-content2');
-        CKEDITOR.replace('progress-content');
-        CKEDITOR.replace('plan-content');
-
-        $('#plan-time-define input').datepicker({
-           format: 'mm/dd/yyyy',
-        });
-        $('#progress-time-define input').datepicker();
-   
-        // get user info
-        getDataFromITM({
-                        'database':params.database,
-                        'token':params.token,
-                        'projectid':params.project_id,
-                        },"/project/user/get", function(status,returndata){
-
-                        	  $("#progress-peer").empty().html()
-                        	   $("#plan-peer").empty().html()
-                        	   $("#share-peer").empty().html()
-                              var records = ""
-                            	  returndata=JSON.parse(returndata.obj);
-                            if(status){
-                            	 for(var i in returndata){
-                            		 records+="<option value=\""+returndata[i].str_id+"\">"+returndata[i].first_name+" "+returndata[i].last_name+"</option>"
-                            	 }
-                                 console.log("data:" + returndata)
-                            }else{
-                                console.log("error:" + returndata)
-                            }
-                            
-                        	  $("#progress-peer").html(records);
-                        	  $("#plan-peer").html(records);
-                        	  $("#share-peer").html(records);
-
-        })
-
-
-
-
-        // get wondering area info
-        getDataFromITM({
-			        	 'database':params.database,
-			             'token':params.token,
-			             'pid':params.project_id,
-                        },"/project/get_wondering_area", function(status,returndata){
-             $("#select-topic").empty().html()
-              var records = ""
-            	  returndata=JSON.parse(returndata.obj);
-            if(status){
-            	 for(var i in returndata){
-            		 records+="<option value=\""+returndata[i].name+"\">"+returndata[i].name+"</option>"
-            	 }
-                 console.log("data:" + returndata)
-            }else{
-                console.log("error:" + returndata)
-            }
-            
-             $("#select-topic").html(records)
-        })
-        
-        
-        // get action
-        getDataFromITM({
-			        	 'database':params.database,
-			             'token':params.token,
-			             'pid':params.project_id,
-                        },"/journal/actions", function(status,returndata){
-             $("#plan-action").empty().html()
-              var records = ""
-            	  returndata=JSON.parse(returndata.obj);
-            if(status){
-            	 for(var i in returndata){
-            		 records+="<option value=\""+returndata[i].action_name+"\">"+returndata[i].action_name+"</option>"
-            	 }
-                 console.log("data:" + returndata)
-            }else{
-                console.log("error:" + returndata)
-            }
-            
-             $("#plan-action").html(records)
-        })
-        
-        $("#btn-save").click(function(){
-        	// get all the data
-        	var today = new Date();
-        	var params = {
-        			'database':getParameter("localdb"),
-        			'token':getParameter("token"),
-        			'selected_topic':$("#select-topic").val(),
-        			'Userid':getParameter("uid"),
-        			'progresstime':$("#progress-time-select").val(),
-        			'progress_time_select':$("#progress-time-select").val(),
-        			'progress_time_define':$("#progress-time-define input").val(),
-        			'progresspeers':$("#progress-peer").val()==""?"":$("#progress-peer").val().join(),
-        			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace("\n",""),
-        			'plantime':$("#plan-time-select").val(),
-        			'plan_time_select':$("#plan-time-select").val(),
-        			'plan_time_define':$("#plan-time-define input").val(),
-        			'issues':CKEDITOR.instances['plan-content'].getData().replace("\n",""),
-        			'actions':$("#plan-action").val()==""?"":$("#plan-action").val().join(),
-        			'planpeers':$("#plan-peer").val()==""?"":$("#plan-peer").val().join(),
-        			'resources':CKEDITOR.instances['plan-content2'].getData().replace("\n",""),
-        			'sharepeers':$("#share-peer").val()==""?"":$("#share-peer").val().join(),
-        			'permission':$("#share-permission").val(),
-        			'creationtime':today.getDate()+"/"+today.getMonth()+"/"+today.getYear()
-        	}
-        	
-        	 var today = new Date()
-        	if(params['plan_time_select']=="1w"){
-        		  var tt=subDays(Date(),7)
-        		 
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-        	}
-        	
-        	if(params['plan_time_select']=="2w"){
-      		  var tt=subDays(Date(),14)
-      		    params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      		}
-        	
-        	if(params['plan_time_select']=="1m"){
-        		  var tt=subMonth(Date(),1)
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-        		}
-        	
-        	if(params['plan_time_select']=="2m"){
-      		  var tt=subMonth(Date(),2)
-      		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['planendtime'] =$("#plan-time-define input").val()
-      		}
-      		
-        	if(params['plan_time_select']=="d"){
-        		 params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		 params['planendtime'] = $("#progress-time-define input").val()
-        	}
-        	
-        	
-        	if(params['progress_time_select']=="1w"){
-      		  var tt=subDays(Date(),7)
-      		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      	}
-      	
-      	if(params['progress_time_select']=="2w"){
-    		  var tt=subDays(Date(),14)
-    		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-    		}
-      	
-      	if(params['progress_time_select']=="1m"){
-      		  var tt=subMonth(Date(),1)
-      		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      		}
-      	
-      	if(params['progress_time_select']=="2m"){
-    		  var tt=subMonth(Date(),2)
-    		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-    		}
-    		
-      	if(params['progress_time_select']=="d"){
-      		 params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = $("#progress-time-define input").val()
-      	}
-      	
-      	
-        	
-        	console.log(params)
-        	
-            // get wondering area info
-            getDataFromITM(params,"/journal/add", function(status,returndata){
-                
-                if(status){
-                	 //back to list page
-                	 goto_jounal_index()
-                     console.log("data:" + returndata)
-                }else{
-                	
-                    console.log("error:" + returndata)
-                }
-                
-                
+    $("#btn-add").click(function(){
+    	 getDataFromITM({
+        	 'database':params.database,
+             'token':params.token,
+             'aname':$("#input-action").val()==""?"":$("#input-action").val(),
+             'pid':params.project_id,
+             "uid":params.uid,
+            },"/journal_action/add", function(){
+            	init()
             })
-            
-        })
+    })
+	function editAction(id){
+		console.log(id)
+		$("#r"+id+" .span-action-edit-reset").show()
+        $("#r"+id+" .input-action-name").show()
+         $("#r"+id+" .input-action-name input").val($("#r"+id+" .span-action-name").text())
+        $("#r"+id+" .span-action-edit-del").hide()
+        $("#r"+id+" .span-action-name").hide()
+	}
+	
+	function delAction(id){
+			console.log(id)
+		   getDataFromITM({
+				        	 'database':params.database,
+				             'token':params.token,
+				             'aid':id,
+	                        },"/journal_action/del", function(){
+	                        	init()
+	                        })
+	}
+	function saveAction(id){
+		getDataFromITM({
+       	 'database':params.database,
+            'token':params.token,
+            'aid':id,
+            'aname':$("#r"+id+" .input-action-name input").val()
+           },"/journal_action/update", function(){
+           	init()
+           })
+	}
+	
+	function resetAction(id){
+		$("#r"+id+" .span-action-edit-reset").hide()
+        $("#r"+id+" .input-action-name").hide()
+        $("#r"+id+" .span-action-edit-del").show()
+        $("#r"+id+" .span-action-name").show()
+	}
+	
+	function init(){
+		$("btn-show-all-project-journal").hide();
+	     // get wondering area info
+        getDataFromITM({
+			        	 'database':params.database,
+			             'token':params.token,
+			             'pid':params.project_id,
+                        },"/journal/actions", showTable)
+        
+	     
+	     
+	}
+	
+
+
+    function showTable(flag, data){
+    
+    	// empty table
+		$("#record").empty().html()
+		var records =""
+    	if(flag){
+    		//show data
+    		data =JSON.parse(data.obj)
+    		// construct html
+    		for(var i in data){
+    			var flag = true;
+    		
+    					records+="<tr id='r"+data[i].Id+"'>"
+            			+"<td>"+data[i].Id+"</td>"
+            			+"<td><span class='span-action-name'> "+data[i].action_name+"</span><span class='input-action-name'><input type='text' value="+data[i].action_name+" /></span></td>"
+            			+"<td>"
+            			+"<span class='span-action-edit-del'><a href='#' onclick=\"editAction("+data[i].Id+")\">Edit</a> / <a href='#' onclick=\"delAction("+data[i].Id+")\">del</a></span>"
+            			+"<span class='span-action-edit-reset'><a href='#' onclick=\"saveAction("+data[i].Id+")\">Save</a> / <a href='#' onclick=\"resetAction("+data[i].Id+")\">reset</a></span>"
+            			+"</td>"
+            			+"</tr>"
+    		}
+    		        
+    	}else{
+    		records ="<tr>"
+            +"<td colspan=\"4\">No data</td>"
+         	+"</tr>"
+    	}
+    	
+		$("#record").html(records)
+		$(".span-action-edit-reset").hide()
+    	$(".input-action-name").hide()
+    }
+	
+    $(function() {
+		init();
     });
     </script>
-  </body>
+
+</body>
 
 </html>

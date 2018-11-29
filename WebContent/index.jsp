@@ -140,9 +140,13 @@
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
                                  		<tr>
-                                            <th>ID</th>
-                                            <th>Topic</th>
-                                            <th>Start Time</th>
+                                            <th>Author</th>
+                                             <th>Entry time</th>
+                                            <th>Wondering Area Topic</th>
+                                            <th>Progress: My new idea and knowledge</th>
+                                            <th>Plan: Working on deeper issues</th>
+                                            <th>Resource to use</th>
+                                            <th>Share</th>
                                              <th>Action</th>
                                          </tr>
                                     <tbody id="record">
@@ -206,6 +210,205 @@
     <!-- AdminLTE for demo purposes -->
 
     <script type="text/javascript">
+	function del(id){
+		 getDataFromITM({ 'database':params.database,
+             'token':params.token,
+             'jid':id,
+             },"/journal/delete",function(){
+			 init()
+		 })
+	}
+	
+	function init(){
+		$("btn-show-all-project-journal").hide();
+	     // get wondering area info
+        getDataFromITM({
+			        	 'database':params.database,
+			             'token':params.token,
+			             'pid':params.project_id,
+                        },"/project/get_wondering_area", function(status,returndata){
+             $("#select-topic").empty().html()
+              var records = ""
+            	  returndata=JSON.parse(returndata.obj);
+            if(status){
+            	 for(var i in returndata){
+            		 records+="<option value=\""+returndata[i].name+"\">"+returndata[i].name+"</option>"
+            	 }
+                
+            }else{
+                console.log("error:" + returndata)
+            }
+            
+             $("#select-topic").html(records)
+        })
+        
+	     
+	     
+       	 getDataFromITM(params,"/user/getbystr_id",showButton)
+       	 
+       	 
+         getDataFromITM(params,"/user/get/all",function(flag, data){
+        	 if(flag){
+        		 var users =[]
+        			data =JSON.parse(data.obj)
+        		 for(var i in data){
+        				 users[data[i].str_id]=data[i].last_name+" "+data[i].first_name
+        		 }
+        		 
+        		 window.user = users;
+        		 getDataFromITM(params,"/journal/getbyuserid",showTable)
+        	 }
+        	 
+        	
+         })
+         
+	}
+
+
+	
+	function showButton(flag, data){
+		
+		if(flag){
+			data =JSON.parse(data.obj)
+			if(data[0].type == "3"){
+				sessionStorage.setItem("role","teacher");
+				$("#btn-show-all-project-journal").show();
+				$("btn-show-all-project-journal").show();
+			}else{
+				sessionStorage.setItem("role","student");
+			}
+		}
+	}
+	
+	$("#btn-show-all-project-journal").click(function(){
+		
+		 getDataFromITM(params,"/journal/getByprojectId",showTable)
+		 
+	})
+	
+    function showTable(flag, data){
+    	var plan_start_time =""
+		if($('#plan—start-time input').val()!=""){
+			plan_start_time=$('#plan-start-time input').val();
+		}
+    	var plan_end_time =""
+		if($('#plan-end-time input').val()!=""){
+			plan_end_time = $('#plan-end-time input').val();
+		}
+    	
+    	var progress_start_time =""
+		if($('#progress—start-time input').val()!=""){
+				plan_start_time=$('#plan-start-time input').val();
+    	}
+        var progress_end_time =""
+		if($('#progress-end-time input').val()!=""){
+				progress_end_time = $('#progress-end-time input').val();
+    	}
+      
+        var creation_time =""
+    		if($('#creation-time input').val()!=""){
+    			creation_time = $('#creation-time input').val();
+        	}
+        	
+    	var selected_topic =""
+			if($('#select-topic').val()!=null){
+				selected_topic = $('#select-topic').val();
+    		}
+    	// empty table
+		$("#record").empty().html()
+		var records =""
+    	if(flag){
+    		//show data
+    		data =JSON.parse(data.obj)
+    		// construct html
+    		for(var i in data){
+    			var flag = true;
+    			
+    			if(progress_start_time!=""){
+    				var date1 = new Date(data[i].progress_start_time);
+    				var date2 = new Date(progress_start_time);
+    				if(date1-date2<0){
+    					flag =false;
+    				}
+    			}
+    			
+    			
+    			
+    			if(progress_end_time!=""){
+    				var date1 = new Date(data[i].progress_end_time);
+    				var date2 = new Date(progress_end_time);
+    				if(date1-date2<0){
+    					flag =false;
+    				}
+    			}
+    			
+    			
+    			if(plan_start_time!=""){
+    				var date1 = new Date(data[i].plan_start_time);
+    				var date2 = new Date(plan_start_time);
+    				if(date1-date2<0){
+    					flag =false;
+    				}
+    			}
+    			
+    			
+    			
+    			if(plan_end_time!=""){
+    				var date1 = new Date(data[i].plan_end_time);
+    				var date2 = new Date(plan_end_time);
+    				if(date1-date2<0){
+    					flag =false;
+    				}
+    			}
+    			
+    			
+				if(creation_time!=""){
+					var date1 = new Date(data[i].creation_time);
+    				var date2 = new Date(creation_time);
+    				if(date1-date2<0){
+    					flag =false;
+    				}
+    			}
+				
+				if(selected_topic!=""){
+					if(selected_topic !=data[i].topic){
+						flag = false;
+					}
+				}
+    			if(flag){
+    					var share =""
+    					var users =window.user
+    					if(data[i].sharepeers!=""){
+    						var uids = data[i].sharepeers.split(",")
+        					for(var i in uids ){
+        						share = share+" " +users[uids[i]]+ ", "
+        					}
+    					}
+    						
+    					
+    					records+="<tr>"
+            			
+            			+"<td>"+users[data[i].User_id]+"</td>"
+            			+"<td>"+data[i].creation_time+"</td>"
+            			+"<td>"+data[i].topic+"</td>"
+            			+"<td>"+data[i].new_knowledge+"</td>"
+            			+"<td>"+data[i].issues+"</td>"
+            			+"<td>"+data[i].resources+"</td>"
+            			+"<td>"+share+"</td>"
+            			+"<td><a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick=\"del("+data[i].Journal_id+")\">Delete</a></td>"
+            			+"</tr>"
+    			}
+    		
+    		}
+    		        
+    	}else{
+    		records ="<tr>"
+            +"<td colspan=\"4\">No data</td>"
+         	+"</tr>"
+    	}
+		$("#record").html(records)
+    }
+   
 	
     $(function() {
     	
@@ -224,168 +427,12 @@
 
         $(".select2").select2();
 		
-		function init(){
-			$("btn-show-all-project-journal").hide();
-		     // get wondering area info
-	        getDataFromITM({
-				        	 'database':params.database,
-				             'token':params.token,
-				             'pid':params.project_id,
-	                        },"/project/get_wondering_area", function(status,returndata){
-	             $("#select-topic").empty().html()
-	              var records = ""
-	            	  returndata=JSON.parse(returndata.obj);
-	            if(status){
-	            	 for(var i in returndata){
-	            		 records+="<option value=\""+returndata[i].name+"\">"+returndata[i].name+"</option>"
-	            	 }
-	                
-	            }else{
-	                console.log("error:" + returndata)
-	            }
-	            
-	             $("#select-topic").html(records)
-	        })
-	        
-		     
-		     
-	       	 getDataFromITM(params,"/user/getbystr_id",showButton)
-	        
-	         getDataFromITM(params,"/journal/getbyuserid",showTable)
-		}
-   
-		init();
-		
-		
-		function showButton(flag, data){
-			
-			if(flag){
-				data =JSON.parse(data.obj)
-				if(data[0].type == "3"){
-					$("btn-show-all-project-journal").show();
-				}
-			}
-		}
-		
-		$("#btn-show-all-project-journal").click(function(){
-			
-			 getDataFromITM(params,"/journal/getByprojectId",showTable)
-			 
-		})
-		
-        function showTable(flag, data){
-        	var plan_start_time =""
-			if($('#plan—start-time input').val()!=""){
-				plan_start_time=$('#plan-start-time input').val();
-    		}
-        	var plan_end_time =""
-			if($('#plan-end-time input').val()!=""){
-				plan_end_time = $('#plan-end-time input').val();
-    		}
-        	
-        	var progress_start_time =""
-    		if($('#progress—start-time input').val()!=""){
-    				plan_start_time=$('#plan-start-time input').val();
-        	}
-            var progress_end_time =""
-    		if($('#progress-end-time input').val()!=""){
-    				progress_end_time = $('#progress-end-time input').val();
-        	}
-          
-            var creation_time =""
-        		if($('#creation-time input').val()!=""){
-        			creation_time = $('#creation-time input').val();
-            	}
-            	
-        	var selected_topic =""
-    			if($('#select-topic').val()!=null){
-    				selected_topic = $('#select-topic').val();
-        		}
-        	// empty table
-    		$("#record").empty().html()
-    		var records =""
-        	if(flag){
-        		//show data
-        		data =JSON.parse(data.obj)
-        		// construct html
-        		for(var i in data){
-        			var flag = true;
-        			
-        			if(progress_start_time!=""){
-        				var date1 = new Date(data[i].progress_start_time);
-        				var date2 = new Date(progress_start_time);
-        				if(date1-date2<0){
-        					flag =false;
-        				}
-        			}
-        			
-        			
-        			
-        			if(progress_end_time!=""){
-        				var date1 = new Date(data[i].progress_end_time);
-        				var date2 = new Date(progress_end_time);
-        				if(date1-date2<0){
-        					flag =false;
-        				}
-        			}
-        			
-        			
-        			if(plan_start_time!=""){
-        				var date1 = new Date(data[i].plan_start_time);
-        				var date2 = new Date(plan_start_time);
-        				if(date1-date2<0){
-        					flag =false;
-        				}
-        			}
-        			
-        			
-        			
-        			if(plan_end_time!=""){
-        				var date1 = new Date(data[i].plan_end_time);
-        				var date2 = new Date(plan_end_time);
-        				if(date1-date2<0){
-        					flag =false;
-        				}
-        			}
-        			
-        			
-					if(creation_time!=""){
-						var date1 = new Date(data[i].creation_time);
-        				var date2 = new Date(creation_time);
-        				if(date1-date2<0){
-        					flag =false;
-        				}
-        			}
-					
-					if(selected_topic!=""){
-						if(selected_topic !=data[i].topic){
-							flag = false;
-						}
-					}
-        			if(flag){
-        					records+="<tr>"
-                			+"<td>"+data[i].Journal_id+"</td>"
-                			+"<td>"+data[i].topic+"</td>"
-                			+"<td>"+data[i].progress_start_time+"</td>"
-                			+"<td><a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/Edit</a></td>"
-                			+"</tr>"
-        			}
-        		
-        		}
-        		        
-        	}else{
-        		records ="<tr>"
-                +"<td colspan=\"4\">No data</td>"
-             	+"</tr>"
-        	}
-    		$("#record").html(records)
-        }
-       
+    	init();
+    	
         
     });
     </script>
 
-	//http://localhost:8080/jmj/index.jsp?username=itm&token=20170921221819522537&uid=57c052ea2057905c2900831a&kf-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2MwNjdkYTIwNTc5MDVjMjkwMDgzYzgiLCJpYXQiOjE1Mzk5MjI4ODMsImV4cCI6MTUzOTk0MDg4M30.6itTnEzZXMnj6_8dHSrUOVROwfE-e7BuA9w9Demq1vU&kfurl=https://kf6.ikit.org/&community_id=57c052ea2057905c29008319&community=Guilderland%20Elementary%20School&localdb=localdb&project_id=3
 </body>
 
 </html>
