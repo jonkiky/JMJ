@@ -226,15 +226,17 @@
     		// construct html
     		for(var i in data){
     			var flag = true;
-    		
-    					records+="<tr id='r"+data[i].Id+"'>"
-            			+"<td>"+data[i].Id+"</td>"
-            			+"<td><span class='span-action-name'> "+data[i].action_name+"</span><span class='input-action-name'><input type='text' value="+data[i].action_name+" /></span></td>"
-            			+"<td>"
-            			+"<span class='span-action-edit-del'><a href='#' onclick=\"editAction("+data[i].Id+")\">Edit</a> / <a href='#' onclick=\"delAction("+data[i].Id+")\">del</a></span>"
-            			+"<span class='span-action-edit-reset'><a href='#' onclick=\"saveAction("+data[i].Id+")\">Save</a> / <a href='#' onclick=\"resetAction("+data[i].Id+")\">reset</a></span>"
-            			+"</td>"
-            			+"</tr>"
+    			if(data[i].project_id==params.project_id){
+    				records+="<tr id='r"+data[i].Id+"'>"
+        			+"<td>"+data[i].Id+"</td>"
+        			+"<td><span class='span-action-name'> "+data[i].action_name+"</span><span class='input-action-name'><input type='text' value="+data[i].action_name+" /></span></td>"
+        			+"<td>"
+        			+"<span class='span-action-edit-del'><a href='#' onclick=\"editAction("+data[i].Id+")\">Edit</a> / <a href='#' onclick=\"delAction("+data[i].Id+")\">del</a></span>"
+        			+"<span class='span-action-edit-reset'><a href='#' onclick=\"saveAction("+data[i].Id+")\">Save</a> / <a href='#' onclick=\"resetAction("+data[i].Id+")\">reset</a></span>"
+        			+"</td>"
+        			+"</tr>"
+    			}
+    					
     		}
     		        
     	}else{

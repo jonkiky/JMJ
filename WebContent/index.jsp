@@ -135,7 +135,7 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                <h3 class="box-title">My Jouneries</h3>
+                                <h3 class="box-title">My Journals</h3>
                             </div><!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
@@ -273,8 +273,9 @@
 			if(data[0].type == "3"){
 				sessionStorage.setItem("role","teacher");
 				$("#btn-show-all-project-journal").show();
-				$("btn-show-all-project-journal").show();
+				
 			}else{
+				$("#btn-show-all-project-journal").hide();
 				sessionStorage.setItem("role","student");
 			}
 		}
@@ -378,24 +379,47 @@
     			if(flag){
     					var share =""
     					var users =window.user
+    					var isShareed=false;
     					if(data[i].sharepeers!=""){
     						var uids = data[i].sharepeers.split(",")
-        					for(var i in uids ){
-        						share = share+" " +users[uids[i]]+ ", "
+        					for(var j in uids ){
+        						share = share+" " +users[uids[j]]+ ", "
         					}
     					}
     						
+    					var delAction=""
+    					if(data[i].User_id==params.uid||(isShareed&&data[i].permission=="edit")){
+    						delAction="<a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick=\"del("+data[i].Journal_id+")\">Delete</a>"
+    					}else{
+    						delAction="<a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View</a>"
+    	    				
+    					}
     					
+    					var regex = /(<([^>]+)>)/ig
+    					
+    					var n_knowledge = data[i].new_knowledge.replace(regex, "");
+    					if(n_knowledge.length>25){
+    						n_knowledge=n_knowledge.substring(0,60)+"..."
+    					}
+    					
+    					var issues = data[i].issues.replace(regex, "");
+    					if(issues.length>25){
+    						issues=issues.substring(0,60)+"..."
+    					}
+    					var resources = data[i].resources.replace(regex, "");
+    					if(resources.length>25){
+    						resources=resources.substring(0,60)+"..."
+    					}
     					records+="<tr>"
             			
             			+"<td>"+users[data[i].User_id]+"</td>"
             			+"<td>"+data[i].creation_time+"</td>"
             			+"<td>"+data[i].topic+"</td>"
-            			+"<td>"+data[i].new_knowledge+"</td>"
-            			+"<td>"+data[i].issues+"</td>"
-            			+"<td>"+data[i].resources+"</td>"
+            			+"<td>"+n_knowledge+"</td>"
+            			+"<td>"+issues+"</td>"
+            			+"<td>"+resources+"</td>"
             			+"<td>"+share+"</td>"
-            			+"<td><a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick=\"del("+data[i].Journal_id+")\">Delete</a></td>"
+            			+"<td>"+delAction+"</td>"
             			+"</tr>"
     			}
     		
