@@ -35,8 +35,7 @@ function getDataFromITM(params,url,callback){
 						if(null!=data&&data.code=="success"){
 							callback(true,data)
 						}else{
-							console.log("get kfurl fails")	
-							callback(false, "get kfurl fails");						
+							callback(false, "get data fails");						
 						}
 	                },
 	                error : function(jqXHR, textStatus, errorThrown) {

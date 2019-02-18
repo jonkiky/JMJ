@@ -299,7 +299,7 @@
     	
     	var progress_start_time =""
 		if($('#progress—start-time input').val()!=""){
-				plan_start_time=$('#plan-start-time input').val();
+			progress_start_time=$('#progress-start-time input').val();
     	}
         var progress_end_time =""
 		if($('#progress-end-time input').val()!=""){
@@ -455,6 +455,8 @@
     	
         
     });
+
+    //https://itm.arcc.albany.edu/jmj/index.jsp?username=itm&token=2017102418203829049&uid=57c067ec2057905c290083c9&kf-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1N2MwNjdkYTIwNTc5MDVjMjkwMDgzYzgiLCJpYXQiOjE1Mzk5MjI4ODMsImV4cCI6MTUzOTk0MDg4M30.6itTnEzZXMnj6_8dHSrUOVROwfE-e7BuA9w9Demq1vU&kfurl=undefined&community_id=57c052ea2057905c29008319&community=Guilderland%20Elementary%20School&localdb=localdb&project_id=3
     </script>
 
 </body>

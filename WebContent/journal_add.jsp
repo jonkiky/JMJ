@@ -364,14 +364,14 @@
     			'progress_time_select':$("#progress-time-select").val()==null?"":$("#progress-time-select").val(),
     			'progress_time_define':$("#progress-time-define input").val()==null?"":$("#progress-time-define input").val(),
     			'progresspeers':$("#progress-peer").val()==null?"":$("#progress-peer").val().join(),
-    			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace(/(?:\r\n|\r|\n)/g, '<br>'),
+    			'newknowledge':CKEDITOR.instances['progress-content'].getData().replace(/\n/g, '').replace(/\t/g, '').replace(/'/g,"\\\'").replace(/"/g,"\\\""),
     			'plantime':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
     			'plan_time_select':$("#plan-time-select").val()==null?"":$("#plan-time-select").val(),
     			'plan_time_define':$("#plan-time-define input").val()==null?"":$("#plan-time-define input").val(),
-    			'issues':CKEDITOR.instances['plan-content'].getData().replace(/(?:\r\n|\r|\n)/g, '<br>'),
+    			'issues':CKEDITOR.instances['plan-content'].getData().replace(/\n/g, '').replace(/\t/g, '').replace(/'/g,"\\\'").replace(/"/g,"\\\""),
     			'actions':$("#plan-action").val()==null?"":$("#plan-action").val().join(),
     			'planpeers':$("#plan-peer").val()==null?"":$("#plan-peer").val().join(),
-    			'resources':CKEDITOR.instances['plan-content2'].getData().replace(/(?:\r\n|\r|\n)/g, '<br>'),
+    			'resources':CKEDITOR.instances['plan-content2'].getData().replace(/\n/g, '').replace(/\t/g, '').replace(/'/g,"\\\'").replace(/"/g,"\\\""),
     			'sharepeers':$("#share-peer").val()==null?"":$("#share-peer").val().join(),
     			'permission':$("#share-permission").val()==null?"view":$("#share-permission").val(),
     			'creationtime':today.getDate()+"/"+month+"/"+today.getFullYear()
@@ -381,63 +381,64 @@
         	if(params['plan_time_select']=="1w"){
         		  var tt=subDays(Date(),7)
         		 
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+        		   params['planstarttime'] = ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+        		   params['planendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
         	}
         	
         	if(params['plan_time_select']=="2w"){
       		  var tt=subDays(Date(),14)
-      		    params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+      		    params['planstarttime'] = ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+      		   params['planendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
       		}
         	
         	if(params['plan_time_select']=="1m"){
         		  var tt=subMonth(Date(),1)
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+        		   params['planstarttime'] = ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+        		   params['planendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
         		}
         	
         	if(params['plan_time_select']=="2m"){
       		  var tt=subMonth(Date(),2)
-      		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
+      		   params['planstarttime'] = ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
       		   params['planendtime'] =$("#plan-time-define input").val()
       		}
       		
         	if(params['plan_time_select']=="d"){
-        		 params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
+        		 params['planstarttime'] = ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
         		 params['planendtime'] = $("#progress-time-define input").val()
         	}
         	
         	
         	if(params['progress_time_select']=="1w"){
       		  var tt=subDays(Date(),7)
-      		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+      		   params['progressstarttime'] =  ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+      		   params['progressendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
       	}
       	
       	if(params['progress_time_select']=="2w"){
     		  var tt=subDays(Date(),14)
-    		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+    		   params['progressstarttime'] =  ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+    		   params['progressendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
     		}
       	
       	if(params['progress_time_select']=="1m"){
       		  var tt=subMonth(Date(),1)
-      		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+      		    params['progressstarttime'] =  ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+      		   params['progressendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
       		}
       	
       	if(params['progress_time_select']=="2m"){
     		  var tt=subMonth(Date(),2)
-    		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
+    		    params['progressstarttime'] =  ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+    		   params['progressendtime'] =((tt.getMonth().toString().length > 1) ? (tt.getMonth() + 1) : ('0' + (tt.getMonth() + 1)))+"/"+ ((tt.getDate().toString().length > 1) ? tt.getDate() : ('0' + tt.getDate()))+"/"+tt.getFullYear()
     		}
     		
       	if(params['progress_time_select']=="d"){
-      		 params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
+      		 params['progressstarttime'] =  ((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
       		   params['progressendtime'] = $("#progress-time-define input").val()
       	}
-      	
+      	((today.getMonth().toString().length > 1) ? (today.getMonth() + 1) : ('0' + (today.getMonth() + 1)))+"/"+ ((today.getDate().toString().length > 1) ? today.getDate() : ('0' + today.getDate()))+"/"+today.getFullYear()
+		
       	
         	
         	console.log(params)
