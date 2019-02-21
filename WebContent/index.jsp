@@ -211,12 +211,15 @@
 
     <script type="text/javascript">
 	function del(id){
-		 getDataFromITM({ 'database':params.database,
-             'token':params.token,
-             'jid':id,
-             },"/journal/delete",function(){
-			 init()
-		 })
+		 if (window.confirm("Do you really want to delete this record?")) { 
+			 getDataFromITM({ 'database':params.database,
+	             'token':params.token,
+	             'jid':id,
+	             },"/journal/delete",function(){
+				 init()
+			 }) 
+		 }
+		
 	}
 	
 	function init(){
