@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+.p-loading-container {
+    z-index: 9999;
+}
+
+.piano-spinner {
+  position: absolute;
+  left: calc(47%);
+  top: 150px;
+}
+
+.textarea{
+    width: 100%;
+    height: 200px;
+    font-size: 14px;
+    line-height: 18px;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    max-height: 200px;
+    overflow: scroll;
+}

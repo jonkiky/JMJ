@@ -392,7 +392,7 @@
     						
     					var delAction=""
     					if(data[i].User_id==params.uid||(isShareed&&data[i].permission=="edit")){
-    						delAction="<a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick=\"del("+data[i].Journal_id+")\">Delete</a>"
+    						delAction="<a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View/</a><a href='#' onclick=\"goto_jounal_edit("+data[i].Journal_id+")\"> Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick=\"del("+data[i].Journal_id+")\">Delete</a>"
     					}else{
     						delAction="<a href='#' onclick=\"goto_jounal_details("+data[i].Journal_id+")\">View</a>"
     	    				

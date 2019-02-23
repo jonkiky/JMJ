@@ -72,7 +72,7 @@ function goto_jounal_edit(id){
 }
 
 function goto_jounal_details(id){
-	window.open("journal_edit.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
+	window.open("journal_details.jsp?jid="+id+"&username="+params.username+"&token="+params.token+"&uid="+params.uid+"&kf-token="+params.kf_token+"&kfurl="+params.kfurl+"&community_id="+params.community_id+"&community="+params.community+"&localdb="+params.database+"&project_id="+params.project_id,"_self");
 }
 
 

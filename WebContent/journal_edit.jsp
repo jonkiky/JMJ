@@ -31,6 +31,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" type="text/css" href="css/p-loading.css" />
+     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 </head>
@@ -257,6 +259,7 @@
     <!-- CK Editor -->
     <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
     <script src="js/get.js"></script>
+    <script type="text/javascript" src="js/p-loading.min.js"></script>
     <script type="text/javascript">
     
     
@@ -272,7 +275,7 @@
                         'projectid':params.project_id,
                         },"/project/user/get", function(status,returndata){
 
-                        	  $("#progress-peer").empty().html()
+                        	   $("#progress-peer").empty().html()
                         	   $("#plan-peer").empty().html()
                         	   $("#share-peer").empty().html()
                               var records = ""
@@ -511,41 +514,36 @@
             }else{
                 console.log("error:" + returndata)
             }
-            
-            
         })
         
     	
     }
     $(function() {
-    	
-    	
 
         $(".select2").select2();
-        //$(".textarea").wysihtml5();
         $.fn.datepicker.defaults.format = "mm/dd/yyyy";
         CKEDITOR.replace('plan-content2');
         CKEDITOR.replace('progress-content');
         CKEDITOR.replace('plan-content');
-        
+        $('body').ploading({action: 'show'});
         setTimeout(function(){ init()}, 3000);
         
-        
         $("#btn-save").click(function(){
-        	
-        	 // get user info
             getDataFromITM({
                             'database':params.database,
                             'token':params.token,
                             'jid':getParameter("jid"),
                             },"/journal/delete", function(status,returndata){
-
-                            	  
                             	  add()
 
             })
 
         })
+    });
+    
+    
+    $(document).ajaxStop(function() {
+    	  $('body').ploading({action: 'hide'});
     });
     </script>
 

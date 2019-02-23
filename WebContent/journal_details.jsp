@@ -31,6 +31,10 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+     <link rel="stylesheet" type="text/css" href="css/p-loading.css" />
+       <link rel="stylesheet" type="text/css" href="css/main.css" />
+       
+   
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 </head>
@@ -111,9 +115,7 @@
                         <div class="form-group">
                             <label>I gained new knowledge about:</label>
                             <div class="box-body pad">
-                                <form>
-                                    <textarea   id="progress-content" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
+                                    <div id="progress-content" class="textarea" placeholder="no data" ></div>
                             </div>
                         </div><!-- /.form-group -->
                     </div>
@@ -151,9 +153,7 @@
                         <div class="form-group">
                             <label>I will focus on the following deeper issue(s) and question(s):</label>
                             <div class="box-body pad">
-                                <form>
-                                    <textarea id="plan-content" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
+                                    <div id="plan-content" class="textarea" placeholder="no data" ></div>
                             </div>
                         </div><!-- /.form-group -->
             
@@ -172,9 +172,7 @@
                         <div class="form-group">
                             <label>resources that I will need to use:</label>
                             <div class="box-body pad">
-                                <form>
-                                    <textarea class="textarea"  id="plan-content2" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </form>
+                            	<div  id="plan-content2" class="textarea" placeholder="no data"  ></div>
                             </div>
                         </div><!-- /.form-group -->
                     </div>
@@ -255,30 +253,24 @@
     <!-- AdminLTE for demo purposes -->
     <!-- CK Editor -->
     <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+      <script type="text/javascript" src="js/p-loading.min.js"></script>
     <script src="js/get.js"></script>
     <script type="text/javascript">
     
     
-    $(function() {
-    	
-    	
-
-        $(".select2").select2();
-        $(".textarea").wysihtml5();
-        $.fn.datepicker.defaults.format = "mm/dd/yyyy";
-        $('#plan-time-define input').datepicker({
-           format: 'mm/dd/yyyy',
-        });
-        $('#progress-time-define input').datepicker();
-   
-        // get user info
+    function init(){
+    	init_user()
+    }
+    
+    function init_user(){
+    	 // get user info
         getDataFromITM({
                         'database':params.database,
                         'token':params.token,
                         'projectid':params.project_id,
                         },"/project/user/get", function(status,returndata){
 
-                        	  $("#progress-peer").empty().html()
+                        	   $("#progress-peer").empty().html()
                         	   $("#plan-peer").empty().html()
                         	   $("#share-peer").empty().html()
                               var records = ""
@@ -295,12 +287,16 @@
                         	  $("#progress-peer").html(records);
                         	  $("#plan-peer").html(records);
                         	  $("#share-peer").html(records);
+                        	  
+                        	  init_area()
 
         })
 
-
-
-
+    }
+    
+    
+    
+    function init_area(){
         // get wondering area info
         getDataFromITM({
 			        	 'database':params.database,
@@ -310,122 +306,124 @@
              $("#select-topic").empty().html()
               var records = ""
             	  returndata=JSON.parse(returndata.obj);
+         
+        	 var records ="";
+			 for(var i in returndata){
+					 records+="<option value=\""+returndata[i].name+"\" >"+returndata[i].name+"</option>"
+        	 }
+			 $("#select-topic").html(records)
+			 initActions(returndata )
+            
+        })
+    }
+    
+    function initActions(topic_data){
+        // get action
+        getDataFromITM({
+			        	 'database':params.database,
+			             'token':params.token,
+			             'pid':params.project_id,
+                        },"/journal/actions", function(status,returndata){
+             $("#plan-action").empty().html()
+              var records = ""
+            	  returndata=JSON.parse(returndata.obj);
+             	window.action=returndata;
             if(status){
             	 for(var i in returndata){
-            		 records+="<option value=\""+returndata[i].name+"\">"+returndata[i].name+"</option>"
+            		 records+="<option value=\""+returndata[i].Id+"\">"+returndata[i].action_name+"</option>"
             	 }
                  console.log("data:" + returndata)
             }else{
                 console.log("error:" + returndata)
             }
             
-             $("#select-topic").html(records)
+             $("#plan-action").html(records)
+              get_Jounery( topic_data )
         })
-        
-        
-        $("#btn-save").click(function(){
-        	// get all the data
-        	var params = {
-        			'database':getParameter("localdb"),
-        			'token':getParameter("token"),
-        			'selected_topic':$("#select-topic").val(),
-        			'Userid':getParameter("uid"),
-        			'progresstime':$("#progress-time-select").val(),
-        			'progress_time_select':$("#progress-time-select").val(),
-        			'progress_time_define':$("#progress-time-define input").val(),
-        			'progresspeers':$("#progress-peer").val().join(),
-        			'newknowledge':$("#progress-content").val(),
-        			'plantime':$("#plan-time-select").val(),
-        			'plan_time_select':$("#plan-time-select").val(),
-        			'plan_time_define':$("#plan-time-define input").val(),
-        			'issues':$("#plan-content").val(),
-        			'actions':$("#plan-action").val().join(),
-        			'planpeers':$("#plan-peer").val().join(),
-        			'resources':$("#plan-content2").val(),
-        			'sharepeers':$("#share-peer").val().join(),
-        			'permission':$("#share-permission").val()
-        	}
-        	
-        	 var today = new Date()
-        	if(params['plan_time_select']=="1w"){
-        		  var tt=subDays(Date(),7)
-        		 
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-        	}
-        	
-        	if(params['plan_time_select']=="2w"){
-      		  var tt=subDays(Date(),14)
-      		    params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      		}
-        	
-        	if(params['plan_time_select']=="1m"){
-        		  var tt=subMonth(Date(),1)
-        		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		   params['planendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-        		}
-        	
-        	if(params['plan_time_select']=="2m"){
-      		  var tt=subMonth(Date(),2)
-      		   params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['planendtime'] =$("#plan-time-define input").val()
-      		}
-      		
-        	if(params['plan_time_select']=="d"){
-        		 params['planstarttime'] = today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-        		 params['planendtime'] = $("#progress-time-define input").val()
-        	}
-        	
-        	
-        	if(params['progress_time_select']=="1w"){
-      		  var tt=subDays(Date(),7)
-      		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      	}
-      	
-      	if(params['progress_time_select']=="2w"){
-    		  var tt=subDays(Date(),14)
-    		   params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-    		}
-      	
-      	if(params['progress_time_select']=="1m"){
-      		  var tt=subMonth(Date(),1)
-      		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-      		}
-      	
-      	if(params['progress_time_select']=="2m"){
-    		  var tt=subMonth(Date(),2)
-    		    params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-    		   params['progressendtime'] = tt.getMonth()+"/"+tt.getDate()+"/"+tt.getFullYear()
-    		}
-    		
-      	if(params['progress_time_select']=="d"){
-      		 params['progressstarttime'] =  today.getMonth()+"/"+today.getDate()+"/"+today.getFullYear()
-      		   params['progressendtime'] = $("#progress-time-define input").val()
-      	}
-      	
-      	
-        	
-        	console.log(params)
-        	
-            // get wondering area info
-            getDataFromITM(params,"/journal/add", function(status,returndata){
-                
-                if(status){
-                	 
-                     console.log("data:" + returndata)
-                }else{
-                    console.log("error:" + returndata)
-                }
-                
-                
-            })
-            
-        })
+    }
+    
+    function get_Jounery(topic_data){
+    
+    	 getDataFromITM({
+        	 'database':params.database,
+             'token':params.token,
+             'jid':getParameter("jid"),
+            },"/journal/getbyid", function(status,data){
+			if(status){
+				
+				 console.log(data)
+				 data=JSON.parse(data.obj);
+				if(data[0].User_id!=params.uid&&sessionStorage.getItem("role")!="teacher"){
+					// not the author
+					if(data[0].permission =="view"){
+						$($('.content .box-primary')[0] ).css("pointer-events","none")
+						$($('.content .box-primary')[1] ).css("pointer-events","none")
+						$($('.content .box-primary')[2] ).css("pointer-events","none")
+						$($('.content .box-primary')[3]).find(".box-body").css("pointer-events","none")
+						$('#mode').empty().html("view");
+						$('#btn-save').hide()
+						
+					}
+				}
+				 
+				 $("#select-topic").select2("val",data[0].topic)
+				 
+				 if(data[0].plan_end_time!=""){
+					 $('#plan-time-define input').datepicker( "setDate", data[0].plan_end_time);
+				 }else{
+					 $('#plan-time-define input').datepicker({
+				           format: 'mm/dd/yyyy',
+				        });
+				 }
+			
+				 	if(data[0].progress_end_time!=""){
+				 		$('#progress-time-define input').datepicker( "setDate", data[0].progress_end_time);
+				      
+				 	}else{
+				 		$('#progress-time-define input').datepicker({
+				        	format: 'mm/dd/yyyy',
+				        	
+				        });
+				 	}
+			        
+				 	$("#progress-time-select").select2("val",  data[0].progress_time_select)
+				 	$("#plan-time-select").select2("val", data[0].plan_time_select)
+				 	$("#progress-peer").select2("val",data[0].progress_peers.split(","))
+				 	$("#plan-peer").select2("val",data[0].planpeers.split(","))
+					$("#share-peer").select2("val",data[0].sharepeers.split(","))
+					$("#share-permission").select2("val",data[0].permission)
+					var actions = data[0].actions.split(',');
+				
+					$("#plan-action").select2("val",actions)
+					//data[0].resources
+				 	 
+				 	$('#plan-content2').html(data[0].resources)
+				 	$('#plan-content').html(data[0].issues)
+				 	$('#progress-content').html(data[0].new_knowledge)
+				 	
+				 	
+			}
+		})
+    }
+    
+    
+    
+    $(function() {
+
+        $(".select2").select2();
+        $.fn.datepicker.defaults.format = "mm/dd/yyyy";
+      
+        $('body').ploading({action: 'show'});
+        setTimeout(function(){ init()}, 3000);
+
     });
+    
+    
+    $(document).ajaxStop(function() {
+    	  $('body').ploading({action: 'hide'});
+    });
+    
+    
     </script>
 
 </body>
