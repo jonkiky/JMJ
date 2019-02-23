@@ -196,9 +196,8 @@
                             </div><!-- /.form-group -->
                         </div>
                         <div class="box-footer">
-                            <div class="col-xs-8"></div>
-                            <div class="col-xs-2"><button id="btn-save" class="btn btn-block btn-primary">Save</button></div>
-                            <div class="col-xs-2"><button onclick="window.history.go(-1);return false;" class="btn btn-block btn-primary">Cancel</button></div>
+                            <div class="col-xs-10"></div>
+                            <div class="col-xs-2"><button onclick="window.history.go(-1);return false;" class="btn btn-block btn-primary">Back To List</button></div>
                         </div>
                     </div>
                 </div>
